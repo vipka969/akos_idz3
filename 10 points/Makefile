@@ -1,0 +1,26 @@
+CXX = g++
+CXXFLAGS = -std=c++11 -lpthread -lrt
+TARGET_ADMIN = hotel_admin
+TARGET_CLIENT = hotel_client
+TARGET_OBSERVER = observer
+SOURCES_ADMIN = hotel_admin.cpp
+SOURCES_CLIENT = hotel_client.cpp
+SOURCES_OBSERVER = observer.cpp
+
+all: $(TARGET_ADMIN) $(TARGET_CLIENT) $(TARGET_OBSERVER)
+
+$(TARGET_ADMIN): $(SOURCES_ADMIN)
+	$(CXX) $(SOURCES_ADMIN) -o $(TARGET_ADMIN) $(CXXFLAGS)
+
+$(TARGET_CLIENT): $(SOURCES_CLIENT)
+	$(CXX) $(SOURCES_CLIENT) -o $(TARGET_CLIENT) $(CXXFLAGS)
+
+$(TARGET_OBSERVER): $(SOURCES_OBSERVER)
+	$(CXX) $(SOURCES_OBSERVER) -o $(TARGET_OBSERVER) $(CXXFLAGS)
+
+clean:
+	rm -f $(TARGET_ADMIN) $(TARGET_CLIENT) $(TARGET_OBSERVER)
+	rm -f /dev/shm/$(SHM_NAME)
+	mq_unlink $(MQ_NAME) 2>/dev/null || true
+
+.PHONY: all clean
